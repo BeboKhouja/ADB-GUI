@@ -138,7 +138,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         try {
             Process process = Runtime.getRuntime().exec("adb kill server");
             System.out.println("Execute command 'adb kill-server'");
-            JOptionPane.showMessageDialog(panel, "Killed server.\nIf the device does not reboot please disconnect and reconnect then allow USB Debugging.");
+            JOptionPane.showMessageDialog(panel, "Killed server.\nPlease disconnect and reconnect then allow USB Debugging.");
             printResults(process);
             } catch (IOException e1) {
                 // TODO Auto-generated catch block

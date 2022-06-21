@@ -5,3 +5,8 @@ ADB GUI is an open source Java based application that adds a GUI based ADB (Andr
 1. To get started download the jar that is included in this application.
 2. Download ADB from the official Android website: https://developer.android.com/studio/releases/platform-tools#downloads
 3. You are done! Use ADB GUI to have fun!
+
+## Features
+1. Buttons to execute ADB commands.
+2. Top bar.
+3. Can execute custom commands instead of using buttons. In top bar.

@@ -6,7 +6,8 @@ ADB GUI is an open source Java based application that adds a GUI based ADB (Andr
 2. Download ADB from the official Android Developers website: https://developer.android.com/studio/releases/platform-tools#downloads
 3. Put it on the root folder "C:\adb"
 4. Put an environmment variable in PATH called "C:\adb"
-5. You are done! Use ADB GUI to have fun!
+5. Restart your computer.
+6. You are done! Use ADB GUI to have fun!
 
 ## Features
 1. Buttons to execute ADB commands.

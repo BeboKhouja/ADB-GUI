@@ -81,6 +81,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         aboutmenu1.setMnemonic(KeyEvent.VK_A);
         exitmenu1.setMnemonic(KeyEvent.VK_E);
         executecommandmenu2.setMnemonic(KeyEvent.VK_E);
+        helpmenu1.setMnemonic(KeyEvent.VK_H);
         discordmenu3.setMnemonic(KeyEvent.VK_D);
         filemenu1.add(aboutmenu1);
         filemenu1.add(exitmenu1);

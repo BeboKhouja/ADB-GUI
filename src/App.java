@@ -1,11 +1,10 @@
-import java.awt.HeadlessException;
 import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JPanel;
 
 public class App {
     static JPanel panel;
-    public static void main(String[] args) throws IOException, HeadlessException{
+    public static void main(String[] args) throws IOException {
         System.out.println("Starting ADB GUI");
         MainFrame myFrame = new MainFrame();
         System.out.println("Successfully started.");

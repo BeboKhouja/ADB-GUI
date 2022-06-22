@@ -1,3 +1,6 @@
+import java.awt.Desktop;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -26,8 +29,8 @@ import javax.swing.event.MenuListener;
 public class MainFrame extends JFrame implements ActionListener, MenuListener, KeyListener {
     //Vars
     JMenuBar menubar1;
-    JMenu filemenu1,advancedmenu1;
-    JMenuItem exitmenu1,aboutmenu1,executecommandmenu1;
+    JMenu filemenu1,advancedmenu1,helpmenu1;
+    JMenuItem exitmenu1,aboutmenu1,executecommandmenu2,discordmenu3;
     JTextField edittext1;
     JButton button1,button2,button3,button4;
     JLabel text1;
@@ -54,9 +57,11 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         menubar1 = new JMenuBar();
         filemenu1 = new JMenu("File");
         advancedmenu1 = new JMenu("Advanced");
+        helpmenu1 = new JMenu("Help");
         exitmenu1 = new JMenuItem("Exit");
         aboutmenu1 = new JMenuItem("About ADB GUI");
-        executecommandmenu1 = new JMenuItem("Execute command");
+        executecommandmenu2 = new JMenuItem("Execute command");
+        discordmenu3 = new JMenuItem("Discord Server");
         button1 = new JButton("Reboot device"); 
         button2 = new JButton("Reboot to recovery");
         button3 = new JButton("Reboot to sideload");
@@ -70,14 +75,17 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         this.setJMenuBar(menubar1);
         menubar1.add(filemenu1);
         menubar1.add(advancedmenu1);
+        menubar1.add(helpmenu1);
         advancedmenu1.setMnemonic(KeyEvent.VK_A);
         filemenu1.setMnemonic(KeyEvent.VK_F);
         aboutmenu1.setMnemonic(KeyEvent.VK_A);
         exitmenu1.setMnemonic(KeyEvent.VK_E);
-        executecommandmenu1.setMnemonic(KeyEvent.VK_E);
+        executecommandmenu2.setMnemonic(KeyEvent.VK_E);
+        discordmenu3.setMnemonic(KeyEvent.VK_D);
         filemenu1.add(aboutmenu1);
         filemenu1.add(exitmenu1);
-        advancedmenu1.add(executecommandmenu1);
+        advancedmenu1.add(executecommandmenu2);
+        helpmenu1.add(discordmenu3);
         labelPanel.add(text1);
         buttonPanel.add(button1);
         buttonPanel.add(button2);
@@ -93,7 +101,8 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
          //Event add
          aboutmenu1.addActionListener(this);
          exitmenu1.addActionListener(this);
-         executecommandmenu1.addActionListener(this);
+         executecommandmenu2.addActionListener(this);
+         discordmenu3.addActionListener(this);
          button1.addActionListener(this);
          button2.addActionListener(this);
          button3.addActionListener(this);
@@ -151,7 +160,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
     if (arg0.getSource() == exitmenu1) {
         System.exit(0);
      }
-    if (arg0.getSource() == executecommandmenu1) {
+    if (arg0.getSource() == executecommandmenu2) {
         String command = JOptionPane.showInputDialog(panel, "Enter command:");
         try {
             Runtime.getRuntime().exec(command);
@@ -159,6 +168,16 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
             // TODO Auto-generated catch block
             e.printStackTrace();
      }
+    }
+    if (arg0.getSource() == discordmenu3) {
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            try {
+                Desktop.getDesktop().browse(new URI("https://discord.gg/y6AcUNTKxX"));
+            } catch (IOException | URISyntaxException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
     }
 

@@ -1,4 +1,6 @@
+package com.mokkachocolata.project.adbgui;
 import java.awt.Desktop;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.awt.Container;
@@ -44,6 +46,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
     public void init() {
         //Local vars
         
+        // Log4j config
         //Window config
         setTitle("ADB GUI");
         setIconImage(Toolkit.getDefaultToolkit().
@@ -67,7 +70,8 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         button3 = new JButton("Reboot to sideload");
         button4 = new JButton("Reconnect device");
         text1 = new JLabel("Please make sure USB Debugging is enabled. Otherwise it wont work.");
-
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler());
+        
         panel.add(buttonPanel);
         panel.add(labelPanel);
         wrapper.add(panel);
@@ -98,7 +102,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         button4.setToolTipText("This option kills the ADB server. Usage: 'adb kill-server'");
         this.pack();
         setSize(500, 350);
-        setVisible(true); 
+        setVisible(true);
          //Event add
          aboutmenu1.addActionListener(this);
          exitmenu1.addActionListener(this);
@@ -156,7 +160,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
     }
     }
     if (arg0.getSource() == aboutmenu1) {
-        JOptionPane.showMessageDialog(panel, "ADB GUI\nVersion 1.1");
+        JOptionPane.showMessageDialog(panel, "ADB GUI\nVersion 1.2");
      }
     if (arg0.getSource() == exitmenu1) {
         System.exit(0);
@@ -164,10 +168,14 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
     if (arg0.getSource() == executecommandmenu2) {
         String command = JOptionPane.showInputDialog(panel, "Enter command:");
         try {
-            Runtime.getRuntime().exec(command);
+            if (command != null) {
+                Runtime.getRuntime().exec(command);
+            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+     } finally {
+        System.out.println("Execute command \"".concat(command).concat("\""));
      }
     }
     if (arg0.getSource() == discordmenu3) {
@@ -210,12 +218,30 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         // TODO Auto-generated method stub
         
     }
-
+    /**
+	 * Gets the executed command message.
+     * 
+     * @return The command message.
+     * @throws IOException
+     *         If the command is not found.
+	 */
     public static void printResults(Process process) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line = "";
         while ((line = reader.readLine()) != null) {
             System.out.println(line);
+        }
+    }
+    public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
+
+        @SuppressWarnings("deprecation")
+        public void uncaughtException(Thread thread, Throwable exception) {
+    
+            System.out.println("Reported exception thrown!");
+            exception.printStackTrace();    
+            JOptionPane.showMessageDialog(panel, "An error has occured! Please report this problem at GitHub or my Discord!");
+            System.exit(0);
+    
         }
     }
 }

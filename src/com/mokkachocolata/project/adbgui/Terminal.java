@@ -1,9 +1,16 @@
+package com.mokkachocolata.project.adbgui;
 import java.io.BufferedReader;
 import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Terminal {
+   /**
+	   * Checks if the app is started from the terminal.
+  	 *
+	   * @return {@code true} If the app is started from the terminal, {@code false} otherwise.
+     * @since 1.1
+	 */
     public static boolean isOpenedInConsole(String[] args) {
     Console console = System.console();
       if (console != null || args.length > 0) {
@@ -12,6 +19,18 @@ public class Terminal {
       }
     return false;
     }
+    /**
+	   * Checks if the app can execute that particular command.
+  	 *
+     * @param command
+     *        The command.
+	   * @return {@code true} If the app can execute command, {@code false} otherwise.
+     * @throws IOException
+     *         If the app cannot excecute the command
+     * @throws IllegalArgumentException
+     *         If the <b>command</b> parameter is empty.
+     * @since 1.1
+	 */
     @SuppressWarnings("all")
     public static boolean canExecuteCommand(String command) throws IOException {
       Process child = Runtime.getRuntime().exec(command);

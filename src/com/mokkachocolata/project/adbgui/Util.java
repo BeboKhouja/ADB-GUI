@@ -7,11 +7,16 @@ public class Util {
 	 * Gets the downloaded JAR location.
 	 *
 	 * @return The JAR's downloaded file location.
-     * @throws URISyntaxException
+     * @throws JarNotFoundException
      *         If the JAR is not found.
      * @since 1.1
 	 */
-    public static String getJarLocation() throws URISyntaxException {
-     return new File(Util.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+    public static String getJarLocation() throws URISyntaxException, JarNotFoundException {
+        if(new File(Util.class.getProtectionDomain().getCodeSource().getLocation().toURI()).isDirectory())  {
+            throw new JarNotFoundException("Jar is not found");
+        } else {
+            return new File(Util.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+        }
     }
+
 }

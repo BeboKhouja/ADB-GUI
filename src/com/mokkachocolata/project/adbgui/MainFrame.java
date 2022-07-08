@@ -53,6 +53,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
           getImage(MainFrame.class.getResource("/res/appicon.png")));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new Dimension(600, 500));
+        new JFrame();
         //Main
         wrapper.setPreferredSize(new Dimension(250, 100));
         panel.setLayout(boxLayout);
@@ -168,7 +169,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
     if (arg0.getSource() == executecommandmenu2) {
         String command = JOptionPane.showInputDialog(panel, "Enter command:");
         try {
-            if (command != null) {
+            if (command != null || command != "") {
                 Runtime.getRuntime().exec(command);
             }
         } catch (IOException e) {
@@ -222,6 +223,8 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
 	 * Gets the executed command message.
      * 
      * @return The command message.
+     * @param process
+     *        The command.
      * @throws IOException
      *         If the command is not found.
 	 */

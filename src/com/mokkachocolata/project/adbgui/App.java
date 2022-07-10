@@ -1,23 +1,30 @@
 package com.mokkachocolata.project.adbgui;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+import com.mokkachocolata.util.Terminal;
+
 public class App {
+    public static String version = "1.3";
     public static void main(String[] args) throws IOException {
-        System.out.println("Starting ADB GUI");
+        System.out.println("ADB GUI\nVersion ".concat(version));
         MainFrame myFrame = new MainFrame();
-        System.out.println("Successfully started.");
-            System.out.println("Can use adb");
-            myFrame.init();
+        myFrame.init();
         if (Terminal.isOpenedInConsole(args) == true) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Opened in terminal");
-            System.out.println("Command:");
-            String command = scanner.nextLine();
-            Runtime.getRuntime().exec(command);
-            System.out.println("Execute command "+command);
-        } else {
-          System.out.println("Not opened in terminal");
+            try (Scanner scanner = new Scanner(System.in)) {
+                while(true) {
+                    String command = scanner.nextLine();
+                    new Thread(()->{try {
+                        Terminal.GetOutput(Runtime.getRuntime().exec("adb " + command));
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }}).start(); 
+                    System.out.println("Execute command \"adb "+command+"\"");
+                }
+            }
+            
         }
         
     }

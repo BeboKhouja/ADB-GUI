@@ -10,9 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -119,49 +117,46 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         // TODO Auto-generated method stub
            
         if (arg0.getSource() == button1) {
-            try {
-        Process process = Runtime.getRuntime().exec("adb reboot");
         System.out.println("Execute command 'adb reboot'");
-        printResults(process);
-        } catch (IOException e1) {
+         new Thread(()->{try {
+            Runtime.getRuntime().exec("adb reboot");
+        } catch (IOException e) {
             // TODO Auto-generated catch block
-            e1.printStackTrace();
+            e.printStackTrace();
+        }}).start();
         
-        }
       }
       if (arg0.getSource() == button2) {
-        try {
-            Process process = Runtime.getRuntime().exec("adb reboot recovery");
-            System.out.println("Execute command 'adb reboot recovery'");
-            printResults(process);
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-    } 
-    }
+        System.out.println("Execute command 'adb reboot recovery'");
+        new Thread(()->{try {
+            Runtime.getRuntime().exec("adb reboot recovery");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }}).start(); 
+}
     if (arg0.getSource() == button3) {
-        try {
-            Process process = Runtime.getRuntime().exec("adb reboot sideload");
-            System.out.println("Execute command 'adb reboot sideload'");
-            printResults(process);
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-    }
+        System.out.println("Execute command 'adb reboot sideload'");
+         new Thread(()->{try {
+            Runtime.getRuntime().exec("adb reboot sideload");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }}).start();
+        
     }
     if (arg0.getSource() == button4) {
-        try {
-            Process process = Runtime.getRuntime().exec("adb kill server");
-            System.out.println("Execute command 'adb kill-server'");
-            JOptionPane.showMessageDialog(panel, "Killed server.\nPlease disconnect and reconnect then allow USB Debugging.");
-            printResults(process);
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-    }
+        System.out.println("Execute command 'adb kill-server'");
+         new Thread(()->{try {
+            Runtime.getRuntime().exec("adb kill-server");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }}).start();
+
     }
     if (arg0.getSource() == aboutmenu1) {
-        JOptionPane.showMessageDialog(panel, "ADB GUI\nVersion 1.2");
+        JOptionPane.showMessageDialog(panel, "ADB GUI\nVersion ".concat(App.version));
      }
     if (arg0.getSource() == exitmenu1) {
         System.exit(0);
@@ -169,16 +164,12 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
     if (arg0.getSource() == executecommandmenu2) {
         String command = JOptionPane.showInputDialog(panel, "Enter command:");
         try {
-            if (command != null || command != "") {
-                Runtime.getRuntime().exec(command);
+            if (command != null) {
+                System.out.println("Execute command \"".concat("adb ").concat(command).concat("\""));
+                Runtime.getRuntime().exec(command.startsWith("adb") + command);
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-     } finally {
-        System.out.println("Execute command \"".concat(command).concat("\""));
-     }
-    }
+    }sss
     if (arg0.getSource() == discordmenu3) {
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             try {
@@ -188,7 +179,9 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
                 e.printStackTrace();
             }
         }
-    }
+    } else {
+    }}
+    
     }
 
     public void menuSelected(MenuEvent me) {
@@ -219,25 +212,8 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         // TODO Auto-generated method stub
         
     }
-    /**
-	 * Gets the executed command message.
-     * 
-     * @return The command message.
-     * @param process
-     *        The command.
-     * @throws IOException
-     *         If the command is not found.
-	 */
-    public static void printResults(Process process) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String line = "";
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-        }
-    }
     public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
 
-        @SuppressWarnings("deprecation")
         public void uncaughtException(Thread thread, Throwable exception) {
     
             System.out.println("Reported exception thrown!");

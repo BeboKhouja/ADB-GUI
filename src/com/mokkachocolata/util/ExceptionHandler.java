@@ -1,4 +1,4 @@
-package com.mokkachocolata.project.adbgui;
+package com.mokkachocolata.util;
 public class ExceptionHandler {
     static void ignoreExc(Runnable r) {
         try {

@@ -1,4 +1,4 @@
-package com.mokkachocolata.project.adbgui;
+package com.mokkachocolata.util;
 import java.io.File;
 import java.net.URISyntaxException;
 

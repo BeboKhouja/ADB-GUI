@@ -1,5 +1,5 @@
 # ADB GUI
-ADB GUI is a free and open source Java based application that adds a GUI based ADB (Android Debug Bridge).
+ADB GUI is a free and open source Java based application that adds a GUI based ADB (Android Debug Bridge). It is also a alternative to Mauronofrio Matarrese's TOOL ALL IN ONE.
 
 # Getting Started
 1. Install Java 17.0.2 or later.

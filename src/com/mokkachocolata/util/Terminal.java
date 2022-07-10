@@ -1,4 +1,4 @@
-package com.mokkachocolata.project.adbgui;
+package com.mokkachocolata.util;
 import java.io.BufferedReader;
 import java.io.Console;
 import java.io.IOException;
@@ -51,5 +51,26 @@ if (command == "") {
         e.printStackTrace();
         return false;
       }
-      }
     }
+    /**
+     * Gets the output of the command entered.
+     * Usage: {@code GetOutput(Runtime.getRuntime().exec("command"))}
+     * @param process
+     *        The command to execute.
+     */
+    public static void GetOutput(final Process process) {
+      new Thread() {
+          public void run() {
+              BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+              String line = null; 
+              try {
+                  while ((line = input.readLine()) != null) {
+                      System.out.println(line);
+                  }
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+          }
+      }.start();
+  }
+}

@@ -1,4 +1,4 @@
-package com.mokkachocolata.project.adbgui;
+package com.mokkachocolata.util;
 
 /**
  * Thrown when the Jar is not found.

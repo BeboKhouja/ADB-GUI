@@ -169,7 +169,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
                 Runtime.getRuntime().exec(command.startsWith("adb") + command);
             }
         } catch (IOException e) {
-    }sss
+    }
     if (arg0.getSource() == discordmenu3) {
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             try {

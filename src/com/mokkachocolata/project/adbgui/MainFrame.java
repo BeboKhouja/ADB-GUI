@@ -162,7 +162,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         System.exit(0);
      }
     if (arg0.getSource() == executecommandmenu2) {
-        String command = JOptionPane.showInputDialog(panel, "Enter command:");
+        String command = JOptionPane.showInputDialog(panel, "Enter command:", "Enter command", JOptionPane.INFORMATION_MESSAGE);
         try {
             if (command != null) {
                 System.out.println("Execute command \"".concat("adb ").concat(command).concat("\""));

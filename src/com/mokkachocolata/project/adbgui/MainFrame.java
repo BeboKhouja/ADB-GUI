@@ -3,6 +3,7 @@ import java.awt.Desktop;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.KeyException;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -30,7 +31,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
     //Vars
     JMenuBar menubar1;
     JMenu filemenu1,advancedmenu1,helpmenu1;
-    JMenuItem exitmenu1,aboutmenu1,executecommandmenu2,discordmenu3;
+    JMenuItem exitmenu1,aboutmenu1,executecommandmenu2,discordmenu3,githubmenu3;
     JTextField edittext1;
     JButton button1,button2,button3,button4;
     JLabel text1;
@@ -64,6 +65,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         aboutmenu1 = new JMenuItem("About ADB GUI");
         executecommandmenu2 = new JMenuItem("Execute command");
         discordmenu3 = new JMenuItem("Discord Server");
+        githubmenu3 = new JMenuItem("GitHub Repository");
         button1 = new JButton("Reboot device"); 
         button2 = new JButton("Reboot to recovery");
         button3 = new JButton("Reboot to sideload");
@@ -86,10 +88,12 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         executecommandmenu2.setMnemonic(KeyEvent.VK_E);
         helpmenu1.setMnemonic(KeyEvent.VK_H);
         discordmenu3.setMnemonic(KeyEvent.VK_D);
+        githubmenu3.setMnemonic(KeyEvent.VK_G);
         filemenu1.add(aboutmenu1);
         filemenu1.add(exitmenu1);
         advancedmenu1.add(executecommandmenu2);
         helpmenu1.add(discordmenu3);
+        helpmenu1.add(githubmenu3);
         labelPanel.add(text1);
         buttonPanel.add(button1);
         buttonPanel.add(button2);
@@ -107,6 +111,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
          exitmenu1.addActionListener(this);
          executecommandmenu2.addActionListener(this);
          discordmenu3.addActionListener(this);
+         githubmenu3.addActionListener(this);
          button1.addActionListener(this);
          button2.addActionListener(this);
          button3.addActionListener(this);
@@ -170,18 +175,28 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
             }
         } catch (IOException e) {
     }
+}
     if (arg0.getSource() == discordmenu3) {
+    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+        try {
+            Desktop.getDesktop().browse(new URI("https://discord.gg/y6AcUNTKxX"));
+        } catch (IOException | URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+}
+
+    if (arg0.getSource() == githubmenu3) {
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             try {
-                Desktop.getDesktop().browse(new URI("https://discord.gg/y6AcUNTKxX"));
+                Desktop.getDesktop().browse(new URI("https://github.com/BeboKhouja/ADB-GUI"));
             } catch (IOException | URISyntaxException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        }
-    } else {
-    }}
-    
+        }    
+    }
     }
 
     public void menuSelected(MenuEvent me) {

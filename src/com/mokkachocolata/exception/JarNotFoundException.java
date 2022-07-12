@@ -1,4 +1,4 @@
-package com.mokkachocolata.util;
+package com.mokkachocolata.exception;
 
 /**
  * Thrown when the Jar is not found.

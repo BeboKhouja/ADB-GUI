@@ -2,6 +2,8 @@ package com.mokkachocolata.util;
 import java.io.File;
 import java.net.URISyntaxException;
 
+import com.mokkachocolata.exception.JarNotFoundException;
+
 public class Util {
     /**
 	 * Gets the downloaded JAR location.

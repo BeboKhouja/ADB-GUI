@@ -1,7 +1,7 @@
 ## Welcome to ADB GUI!
 
-To get started scroll down to see how to use ADB GUI
-![Program image](/ADB GUI/assets/Screenshot 2022-07-14 124934.png)
+To get started scroll down to see how to use ADB GUI. <br>
+![Program image](/ADB GUI/docs/assets/Screenshot 2022-07-14 124934.png)
 
 ### Getting started
 

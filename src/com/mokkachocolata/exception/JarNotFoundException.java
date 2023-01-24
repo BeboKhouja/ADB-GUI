@@ -1,3 +1,5 @@
+// Copyright (C) 2022 Bebo Khouja
+
 package com.mokkachocolata.exception;
 
 /**
@@ -11,6 +13,7 @@ public class JarNotFoundException extends Exception {
      * @param message
      *        The message. Can also be {@code null}.
      */
+    @Deprecated(forRemoval = true)
     public JarNotFoundException(String message) {
         super(message);
     }

@@ -1,3 +1,5 @@
+// Copyright (C) 2022 Bebo Khouja
+
 package com.mokkachocolata.project.adbgui;
 
 import java.awt.Desktop;
@@ -8,11 +10,17 @@ import java.util.Scanner;
 
 import com.mokkachocolata.exception.JarNotFoundException;
 import com.mokkachocolata.util.Terminal;
-import com.mokkachocolata.util.Util;
 
 public class App {
     public static String version = "1.3.1";
-    public static void main(String[] args) throws IOException, URISyntaxException, JarNotFoundException {
+    
+    /** 
+     * @param args
+     * @throws IOException
+     * @throws URISyntaxException
+     * @throws JarNotFoundException
+     */
+    public static void main(String[] args) throws IOException, URISyntaxException {
         System.out.println("ADB GUI\nVersion ".concat(version));
         MainFrame myFrame = new MainFrame();
         myFrame.init();
@@ -30,11 +38,8 @@ public class App {
                     if (command.equals("version")) {
                         System.out.println("ADB GUI version " + version);
                     }
-                    if (command.equals("jarlocation")) {
-                        System.out.println(Util.getJarLocation());
-                    }
                     if (command.equals("help")) {
-                        System.out.println("Handy commands:\n1. version\n2. jarlocation");
+                        System.out.println("Handy commands:\n1. version\n2. jarlocation\n3. discord\n4. github");
                     }
                     if (command.equals("github")) {
                         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
@@ -49,7 +54,7 @@ public class App {
                     if (command.equals("discord")) {
                         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                             try {
-                                Desktop.getDesktop().browse(new URI("https://github.com/BeboKhouja/ADB-GUI"));
+                                Desktop.getDesktop().browse(new URI("https://discord.gg/y6AcUNTKxX"));
                             } catch (IOException | URISyntaxException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();

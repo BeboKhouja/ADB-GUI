@@ -1,46 +1,43 @@
-package com.mokkachocolata.project.adbgui;
-import java.awt.Desktop;
+// Copyright (C) 2022 Bebo Khouja
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.KeyException;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+package com.mokkachocolata.project.adbgui;
+
+import io.sentry.Sentry;
+
+import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
+import java.net.URI;
+import java.net.URISyntaxException;
+import com.mokkachocolata.util.ExecuteCommand;
 
 public class MainFrame extends JFrame implements ActionListener, MenuListener, KeyListener {
     //Vars
+    JTabbedPane tabbedPane = new JTabbedPane();
     JMenuBar menubar1;
     JMenu filemenu1,advancedmenu1,helpmenu1;
     JMenuItem exitmenu1,aboutmenu1,executecommandmenu2,discordmenu3,githubmenu3;
     JTextField edittext1;
     JButton button1,button2,button3,button4;
     JLabel text1;
+    ExecuteCommand CommandBar = new ExecuteCommand();
     Container container = getContentPane();
     // ImageIcon logo = new ImageIcon(".//res//appicon.png")
+        JList list = new JList<>();
+        DefaultListModel model = new DefaultListModel<>();
+        JSplitPane splitPane = new JSplitPane();
         JPanel wrapper = new JPanel(); // comes with flowlayout by default
         JPanel buttonPanel = new JPanel(new GridLayout(2, 1));
         JPanel labelPanel = new JPanel(new GridLayout(1, 1));
         JPanel panel = new JPanel();
+        JPanel panel2 = new JPanel(new GridLayout(2, 1));
+        JPanel panel3 = new JPanel();
         BoxLayout boxLayout = new BoxLayout(panel, BoxLayout.PAGE_AXIS);
     public void init() {
         //Local vars
@@ -52,7 +49,6 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
           getImage(MainFrame.class.getResource("/res/appicon.png")));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new Dimension(600, 500));
-        new JFrame();
         //Main
         wrapper.setPreferredSize(new Dimension(250, 100));
         panel.setLayout(boxLayout);
@@ -72,11 +68,17 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         button4 = new JButton("Reconnect device");
         text1 = new JLabel("Please make sure USB Debugging is enabled. Otherwise it wont work.");
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler());
-        
+        list.setModel(model);
+        tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+        tabbedPane.setTabPlacement(JTabbedPane.TOP);
+        tabbedPane.add("Actions",panel2);
+        tabbedPane.add("Devices",panel3);
+        panel.add(tabbedPane);
         panel.add(buttonPanel);
-        panel.add(labelPanel);
-        wrapper.add(panel);
-        add(wrapper);
+        panel.add(new JLabel());
+                panel.add(labelPanel);
+                wrapper.add(panel);
+                add(wrapper);
         this.setJMenuBar(menubar1);
         menubar1.add(filemenu1);
         menubar1.add(advancedmenu1);
@@ -95,10 +97,10 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         helpmenu1.add(discordmenu3);
         helpmenu1.add(githubmenu3);
         labelPanel.add(text1);
-        buttonPanel.add(button1);
-        buttonPanel.add(button2);
-        buttonPanel.add(button3);
-        buttonPanel.add(button4);
+        panel2.add(button1);
+        panel2.add(button2);
+        panel2.add(button3);
+        panel2.add(button4);
         button1.setToolTipText("This option reboots the device normally. Usage: 'adb reboot'");
         button2.setToolTipText("This option reboots the device into recovery. Usage: 'adb reboot recovery'");
         button3.setToolTipText("This option reboots the device into recovery then starts sideload mode. Usage: 'adb reboot sideload'");
@@ -116,7 +118,21 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
          button2.addActionListener(this);
          button3.addActionListener(this);
          button4.addActionListener(this);
+         Sentry.init(options -> {
+            options.setDsn("https://237eedd6ad4d4eb0bb09781c6097d4ba@o1374227.ingest.sentry.io/6681459");
+            // To set a uniform sample rate
+            options.setTracesSampleRate(1.0);
+            // OR if you prefer, determine traces sample rate based on the sampling context
+            options.setTracesSampler(
+                context -> {
+                  return null;
+                });
+          }); // to be removed when you fork it
     }
+    
+    /** 
+     * @param arg0
+     */
     @Override
     public void actionPerformed(ActionEvent arg0) {
         // TODO Auto-generated method stub
@@ -161,21 +177,15 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
 
     }
     if (arg0.getSource() == aboutmenu1) {
-        JOptionPane.showMessageDialog(panel, "ADB GUI\nVersion ".concat(App.version));
+        JOptionPane.showMessageDialog(panel, "ADB GUI\nVersion " + App.version);
      }
     if (arg0.getSource() == exitmenu1) {
         System.exit(0);
      }
+
     if (arg0.getSource() == executecommandmenu2) {
-        String command = JOptionPane.showInputDialog(panel, "Enter command:", "Enter command", JOptionPane.INFORMATION_MESSAGE);
-        try {
-            if (command != null) {
-                System.out.println("Execute command \"".concat("adb ").concat(command).concat("\""));
-                Runtime.getRuntime().exec(command.startsWith("adb") + command);
-            }
-        } catch (IOException e) {
+        CommandBar.setVisible(true);
     }
-}
     if (arg0.getSource() == discordmenu3) {
     if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
         try {
@@ -199,29 +209,53 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
     }
     }
 
+    
+    /** 
+     * @param me
+     */
     public void menuSelected(MenuEvent me) {
     
     }
 
+    
+    /** 
+     * @param me
+     */
     public void menuDeselected(MenuEvent me) {
         
     }
 
+    
+    /** 
+     * @param me
+     */
     public void menuCanceled(MenuEvent me) {
         
     }
         
     
+    
+    /** 
+     * @param e
+     */
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
         
     }
+    
+    /** 
+     * @param e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         // TODO Auto-generated method stub
         
     }
+    
+    /** 
+     * @param e
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
@@ -231,9 +265,10 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
 
         public void uncaughtException(Thread thread, Throwable exception) {
     
+            Sentry.captureException(exception);
             System.out.println("Reported exception thrown!");
             exception.printStackTrace();    
-            JOptionPane.showMessageDialog(panel, "An error has occured! Please report this problem at GitHub or my Discord!");
+            JOptionPane.showMessageDialog(panel, "An error has occurred! Please report this problem at GitHub or my Discord! \n\n" + exception.getMessage());
             System.exit(0);
     
         }

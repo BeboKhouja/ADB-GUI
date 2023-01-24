@@ -1,3 +1,5 @@
+// Copyright (C) 2022 Bebo Khouja
+
 package com.mokkachocolata.util;
 import java.io.BufferedReader;
 import java.io.Console;

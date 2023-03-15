@@ -1,27 +1,28 @@
-// Copyright (C) 2022 Bebo Khouja
+// Copyright (C) 2023 Bebo Khouja
 
 package com.mokkachocolata.project.adbgui;
 
-import java.awt.Desktop;
 import java.io.IOException;
-import java.net.URI;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.Scanner;
 
 import com.mokkachocolata.exception.JarNotFoundException;
+import com.mokkachocolata.util.AddonLoader;
+import com.mokkachocolata.util.Link;
 import com.mokkachocolata.util.Terminal;
+import org.apache.log4j.*;
 
 public class App {
-    public static String version = "1.3.1";
-    
-    /** 
-     * @param args
-     * @throws IOException
-     * @throws URISyntaxException
-     * @throws JarNotFoundException
-     */
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        System.out.println("ADB GUI\nVersion ".concat(version));
+    public static String version = "1.4.0";
+    static final Logger logger = Logger.getLogger(App.class);
+    private static Link link = new Link();
+
+    public static void main(String[] args) throws IOException, URISyntaxException, JarNotFoundException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+        ConsoleAppender consoleAppender = new ConsoleAppender();
+        consoleAppender.setThreshold(Level.ALL);
+        logger.info("ADB GUI\nVersion ".concat(version));
+        new AddonLoader().LoadAddonsOnInit();
         MainFrame myFrame = new MainFrame();
         myFrame.init();
         if (Terminal.isOpenedInConsole(args) == true) {
@@ -33,33 +34,19 @@ public class App {
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
-                    }}).start(); 
-                    System.out.println("Execute command \"adb "+command+"\"");
+                    }}).start();
+                    logger.info("Execute command \"adb "+command+"\"");
                     if (command.equals("version")) {
-                        System.out.println("ADB GUI version " + version);
+                        logger.info("ADB GUI version " + version);
                     }
                     if (command.equals("help")) {
-                        System.out.println("Handy commands:\n1. version\n2. jarlocation\n3. discord\n4. github");
+                        logger.info("Commands:\n1. version\n2. jarlocation\n3. discord\n4. github");
                     }
                     if (command.equals("github")) {
-                        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                            try {
-                                Desktop.getDesktop().browse(new URI("https://github.com/BeboKhouja/ADB-GUI"));
-                            } catch (IOException | URISyntaxException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                        }
+                        link.OpenLink("https://github.com/BeboKhouja/ADB-GUI");
                     }
                     if (command.equals("discord")) {
-                        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                            try {
-                                Desktop.getDesktop().browse(new URI("https://discord.gg/y6AcUNTKxX"));
-                            } catch (IOException | URISyntaxException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                        }
+                        link.OpenLink("https://discord.gg/y6AcUNTKxX");
                     }
                 }
             }

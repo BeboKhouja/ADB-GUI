@@ -1,6 +1,7 @@
 package com.mokkachocolata.util;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
@@ -66,6 +67,8 @@ public class ExecuteCommand extends JDialog {
 
     public static void main(String[] args) {
         ExecuteCommand dialog = new ExecuteCommand();
+        dialog.setMinimumSize(new Dimension(250, 400));
+        dialog.setTitle("Command");
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

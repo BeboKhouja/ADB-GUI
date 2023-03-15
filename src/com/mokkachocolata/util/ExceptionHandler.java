@@ -1,10 +1,9 @@
-// Copyright (C) 2022 Bebo Khouja
+// Copyright (C) 2023 Bebo Khouja
 
 package com.mokkachocolata.util;
 public class ExceptionHandler {
     
-    /** 
-     * @param r
+    /**
      */
     static void ignoreExc(Runnable r) {
         try {

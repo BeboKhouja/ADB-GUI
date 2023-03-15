@@ -1,7 +1,8 @@
-// Copyright (C) 2022 Bebo Khouja
+// Copyright (C) 2023 Bebo Khouja
 
 package com.mokkachocolata.project.adbgui;
 
+import com.mokkachocolata.util.Link;
 import io.sentry.Sentry;
 
 import javax.swing.*;
@@ -16,21 +17,24 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import com.mokkachocolata.util.ExecuteCommand;
+import org.apache.log4j.*;
 
 public class MainFrame extends JFrame implements ActionListener, MenuListener, KeyListener {
+    private final Logger logger = Logger.getLogger(MainFrame.class);
+    private Link link = new Link();
+
     //Vars
     JTabbedPane tabbedPane = new JTabbedPane();
     JMenuBar menubar1;
     JMenu filemenu1,advancedmenu1,helpmenu1;
     JMenuItem exitmenu1,aboutmenu1,executecommandmenu2,discordmenu3,githubmenu3;
-    JTextField edittext1;
     JButton button1,button2,button3,button4;
     JLabel text1;
     ExecuteCommand CommandBar = new ExecuteCommand();
     Container container = getContentPane();
     // ImageIcon logo = new ImageIcon(".//res//appicon.png")
-        JList list = new JList<>();
-        DefaultListModel model = new DefaultListModel<>();
+        JList<Object> list = new JList<>();
+        DefaultListModel<Object> model = new DefaultListModel<>();
         JSplitPane splitPane = new JSplitPane();
         JPanel wrapper = new JPanel(); // comes with flowlayout by default
         JPanel buttonPanel = new JPanel(new GridLayout(2, 1));
@@ -130,15 +134,15 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
           }); // to be removed when you fork it
     }
     
-    /** 
-     * @param arg0
-     */
+
     @Override
     public void actionPerformed(ActionEvent arg0) {
         // TODO Auto-generated method stub
+        ConsoleAppender consoleAppender = new ConsoleAppender();
+        consoleAppender.setThreshold(Level.ALL);
            
         if (arg0.getSource() == button1) {
-        System.out.println("Execute command 'adb reboot'");
+        logger.info("Execute command \"adb reboot\"");
          new Thread(()->{try {
             Runtime.getRuntime().exec("adb reboot");
         } catch (IOException e) {
@@ -148,7 +152,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         
       }
       if (arg0.getSource() == button2) {
-        System.out.println("Execute command 'adb reboot recovery'");
+          logger.info("Execute command \"adb reboot recovery\"");
         new Thread(()->{try {
             Runtime.getRuntime().exec("adb reboot recovery");
         } catch (IOException e) {
@@ -157,7 +161,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         }}).start(); 
 }
     if (arg0.getSource() == button3) {
-        System.out.println("Execute command 'adb reboot sideload'");
+        logger.info("Execute command \"adb reboot sideload\"");
          new Thread(()->{try {
             Runtime.getRuntime().exec("adb reboot sideload");
         } catch (IOException e) {
@@ -167,7 +171,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         
     }
     if (arg0.getSource() == button4) {
-        System.out.println("Execute command 'adb kill-server'");
+        logger.info("Execute command \"adb kill server\"");
          new Thread(()->{try {
             Runtime.getRuntime().exec("adb kill-server");
         } catch (IOException e) {
@@ -187,47 +191,30 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         CommandBar.setVisible(true);
     }
     if (arg0.getSource() == discordmenu3) {
-    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-        try {
-            Desktop.getDesktop().browse(new URI("https://discord.gg/y6AcUNTKxX"));
-        } catch (IOException | URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+        link.OpenLink("https://discord.gg/y6AcUNTKxX");
 }
 
     if (arg0.getSource() == githubmenu3) {
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            try {
-                Desktop.getDesktop().browse(new URI("https://github.com/BeboKhouja/ADB-GUI"));
-            } catch (IOException | URISyntaxException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }    
+        link.OpenLink("https://github.com/BeboKhouja/ADB-GUI");
     }
     }
 
     
-    /** 
-     * @param me
+    /**
      */
     public void menuSelected(MenuEvent me) {
     
     }
 
     
-    /** 
-     * @param me
+    /**
      */
     public void menuDeselected(MenuEvent me) {
         
     }
 
     
-    /** 
-     * @param me
+    /**
      */
     public void menuCanceled(MenuEvent me) {
         
@@ -235,8 +222,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         
     
     
-    /** 
-     * @param e
+    /**
      */
     @Override
     public void keyTyped(KeyEvent e) {
@@ -244,8 +230,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         
     }
     
-    /** 
-     * @param e
+    /**
      */
     @Override
     public void keyPressed(KeyEvent e) {
@@ -253,8 +238,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         
     }
     
-    /** 
-     * @param e
+    /**
      */
     @Override
     public void keyReleased(KeyEvent e) {

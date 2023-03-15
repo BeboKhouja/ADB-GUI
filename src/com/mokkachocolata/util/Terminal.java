@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Bebo Khouja
+// Copyright (C) 2023 Bebo Khouja
 
 package com.mokkachocolata.util;
 import java.io.BufferedReader;
@@ -61,18 +61,17 @@ if (command == "") {
      *        The command to execute.
      */
     public static void GetOutput(final Process process) {
-      new Thread() {
-          public void run() {
-              BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
-              String line = null; 
-              try {
-                  while ((line = input.readLine()) != null) {
-                      System.out.println(line);
-                  }
-              } catch (IOException e) {
-                  e.printStackTrace();
+      new Thread(() -> {
+          BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+          String line = null;
+          try {
+              while ((line = input.readLine()) != null) {
+                  System.out.println(line);
               }
+          } catch (IOException e) {
+              e.printStackTrace();
           }
-      }.start();
+      }).start();
   }
+
 }

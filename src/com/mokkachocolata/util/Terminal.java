@@ -15,11 +15,8 @@ public class Terminal {
 	 */
     public static boolean isOpenedInConsole(String[] args) {
     Console console = System.console();
-      if (console != null || args.length > 0) {
-    // The app was started from a terminal
-    return true;
-      }
-    return false;
+        // The app was started from a terminal
+        return console != null || args.length > 0;
     }
     /**
 	   * Checks if the app can execute that particular command.
@@ -63,7 +60,7 @@ if (command == "") {
     public static void GetOutput(final Process process) {
       new Thread(() -> {
           BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
-          String line = null;
+          String line;
           try {
               while ((line = input.readLine()) != null) {
                   System.out.println(line);

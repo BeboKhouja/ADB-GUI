@@ -3,14 +3,17 @@
 package com.mokkachocolata.exception;
 
 /**
- * Thrown when the Jar is not found.
+ * Thrown when a .jar file is not found.
  * @since 1.2
+ * @author Bebo Khouja
  */
 public class JarNotFoundException extends Exception {
     /**
      * Constructs a {@code JarNotFoundException}.
      * @param message
-     *        The message. Can also be {@code null}.
+     *        The message.
+     * @since 1.2
+     * @author Bebo Khouja
      */
     public JarNotFoundException(String message) {
         super(message);

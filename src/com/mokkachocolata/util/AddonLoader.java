@@ -1,20 +1,32 @@
 package com.mokkachocolata.util;
 
 import com.mokkachocolata.exception.JarNotFoundException;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.jar.JarFile;
 
+/**
+ * The {@code AddonLoader} class is responsible for loading the addons.
+ * @since 1.4.0
+ * @author Bebo Khouja
+ */
 public class AddonLoader {
-    public void LoadAddonsOnInit() throws JarNotFoundException, URISyntaxException, IOException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        File mods = new File(new File(Util.getJarLocation()).getParentFile().getPath() + "\\mods");
+    private final Util util = new Util();
+
+    /**
+     * Loads the addons from the {@code mods} folder, then returns a {@code ArrayList} containing the {@code LoadedAddon}'s.
+     * @return {@code LoadedAddon} containing functions.
+     * @since 1.5.0
+     * @author Bebo Khouja
+     */
+    public ArrayList LoadAddons() throws JarNotFoundException, URISyntaxException, IOException, ClassNotFoundException {
+        File mods = new File(new File(util.getJarLocation()).getParentFile().getPath() + "\\mods");
+        ArrayList<LoadedAddon> loadedAddons = new ArrayList<LoadedAddon>();
         if (mods.exists()) {
             URLClassLoader child = new URLClassLoader(
                     new URL[] {mods.toURI().toURL()}
@@ -27,40 +39,20 @@ public class AddonLoader {
             if (modsList != null) {
                 for(File files: modsList) {
                     Class classToLoad;
-                    if (getFileExtension(files).equals(".class")) {
+                    if (util.getFileExtension(files).equals(".class")) {
                         classToLoad = Class.forName(files.getName().replaceFirst("[.][^.]+$", ""), true, child);
-                    } else if ((getFileExtension(files).equals(".jar"))) {
-                        classToLoad = Class.forName(getMainClass(new JarFile(files)), true, child);
+                    } else if ((util.getFileExtension(files).equals(".jar"))) {
+                        classToLoad = Class.forName(util.getMainClass(new JarFile(files)), true, child);
                     } else {
                         throw new ClassNotFoundException();
                     }
-                    Method method = classToLoad.getDeclaredMethod("main");
-                    method.setAccessible(true);
-                    Object result = method.invoke(child);
+                    loadedAddons.add(new LoadedAddon(classToLoad, child, files, util.getFileExtension(files).equals(".jar")));
                 }
             }
         }
+        return loadedAddons;
     }
-    private static @Nullable String getMainClass(JarFile jar) throws IOException {
-        if (jar.getManifest().getMainAttributes().containsKey("Main-Class")) {
-            return jar.getManifest().getMainAttributes().getValue("Main-Class");
-        } else {
-            return null;
-    }
-    }
-    private String getFileExtension(File file) {
-        String extension = "";
-
-        try {
-            if (file != null && file.exists()) {
-                String name = file.getName();
-                extension = name.substring(name.lastIndexOf("."));
-            }
-        } catch (Exception e) {
-            extension = "";
-        }
-
-        return extension;
-
+    public File getModsFolder() throws JarNotFoundException, URISyntaxException {
+        return new File(new File(util.getJarLocation()).getParentFile().getPath() + "\\mods");
     }
 }

@@ -7,7 +7,6 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/sentry-6.4.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/sentry-6.4.0-javadoc.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/sentry-6.4.0-sources.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/gson-2.8.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/log4j-1.2-api-2.20.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/log4j-api-2.20.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/log4j-api-test-2.20.0.jar" path-in-jar="/" />
@@ -38,6 +37,8 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/log4j-to-slf4j-2.20.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/log4j-web-2.20.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/log4j-core-2.20.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/json-20240303-javadoc.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/json-20240303.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

@@ -1,3 +1,5 @@
 /.vscode
-ADB GUI.jar
-LICENSE
+/ADB GUI.jar
+/out
+/bin
+/adb gui.xml

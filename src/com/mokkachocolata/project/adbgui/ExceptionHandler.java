@@ -7,9 +7,6 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 
 import java.net.URISyntaxException;
 
@@ -36,14 +33,14 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
             if (new AddonLoader().getModsFolder().exists()) {
                 logger.info("The details as explained below is shown.\nJava version " + getVersion() + "\nMods path: " + new AddonLoader().getModsFolder().toPath());
             }
-        } catch (JarNotFoundException ignored) {
-        } catch (URISyntaxException ignored) {
+        } catch (JarNotFoundException | URISyntaxException ignored) {
         }
-        MessageBox message = new MessageBox(new Shell(), SWT.OK);
-        message.setMessage("An error has occurred. The application will now terminate.");
-        int chosen = message.open();
-        if (chosen == SWT.OK) {
-            System.exit(0);
-        }
+        System.exit(-1);
+        // MessageBox message = new MessageBox(new Shell(), SWT.OK);
+        // message.setMessage("An error has occurred. The application will now terminate.");
+        // int chosen = message.open();
+        // if (chosen == SWT.OK) {
+        //   System.exit(0);
+        // }
     }
 }

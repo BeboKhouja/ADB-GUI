@@ -3,12 +3,16 @@
 package com.mokkachocolata.project.adbgui;
 
 // Project imports
+
+import com.mokkachocolata.util.ExecuteCommand;
 import com.mokkachocolata.util.Link;
 import com.mokkachocolata.util.Localization;
-import com.mokkachocolata.util.ExecuteCommand;
-// Sentry imports
 import io.sentry.Sentry;
-// Java imports
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -18,9 +22,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.net.URISyntaxException;
-// Log4j imports
-import org.apache.log4j.*;
 
 /**
  * The {@code MainFrame} class houses the main frame for the app.
@@ -35,7 +36,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
     final JTabbedPane tabbedPane = new JTabbedPane();
     JMenuBar menubar1;
     JMenu filemenu1,advancedmenu1,helpmenu1;
-    JMenuItem exitmenu1,aboutmenu1,executecommandmenu2,discordmenu3,githubmenu3;
+    JMenuItem exitmenu1,aboutmenu1,executecommandmenu2,discordmenu3,githubmenu3,languagemenu1;
     JButton button1,button2,button3,button4;
     JLabel text1;
     final ExecuteCommand CommandBar = new ExecuteCommand();
@@ -50,7 +51,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         final JPanel panel2 = new JPanel(new GridLayout(2, 1));
         final JPanel panel3 = new JPanel();
         final BoxLayout boxLayout = new BoxLayout(panel, BoxLayout.PAGE_AXIS);
-    public void init() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, URISyntaxException {
+    public void init() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
         //Window config
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         setTitle(localization.getLocalizedText("WINDOW_TITLE"));
@@ -73,9 +74,10 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener, K
         githubmenu3 = new JMenuItem("GitHub Repository");
         button1 = new JButton("Reboot device");
         button2 = new JButton("Reboot to recovery");
-        button3 = new JButton("Reboot to sideload");
+        languagemenu1 = new JMenuItem(localization.getLocalizedText("LANGUAGE_CHANGE_OPTION"));
+        button3 = new JButton(localization.getLocalizedText("REBOOT_DEVICE_SIDELOAD"));
         button4 = new JButton("Reconnect device");
-        text1 = new JLabel("Please make sure USB Debugging is enabled. Otherwise, it wont work.");
+        text1 = new JLabel(localization.getLocalizedText("ENABLE_DEBUGGING_WARNING"));
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler());
         list.setModel(model);
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);

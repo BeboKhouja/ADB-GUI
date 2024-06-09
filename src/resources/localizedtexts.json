@@ -1,9 +1,9 @@
 [
-    {"language":"id_id", "key":"ENABLE_DEBUGGING_WARNING",  "string":"Pastikan USB Debugging hidup. Jika tidak, tidak akan bekerja."},
+    {"language":"id_id", "key":"ENABLE_DEBUGGING_WARNING",  "string":"Pastikan USB Debugging di Android Developer Options hidup."},
     {"language":"id_id", "key":"REBOOT_DEVICE", "string":"Mulai ulang perangkat"},
     {"language":"id_id", "key":"REBOOT_DEVICE_SIDELOAD", "string":"Mulai ulang perangkat ke sideload"},
     {"language":"id_id", "key":"WINDOW_TITLE", "string":"GUI ADB"},
-    {"language":"en_us", "key":"ENABLE_DEBUGGING_WARNING", "string":"Please make sure USB Debugging is enabled. Otherwise, it wont work."},
+    {"language":"en_us", "key":"ENABLE_DEBUGGING_WARNING", "string":"Make sure USB Debugging is enabled in Android Developer Settings."},
     {"language":"en_us", "key":"REBOOT_DEVICE", "string":"Reboot device"},
     {"language":"en_us", "key":"REBOOT_DEVICE_SIDELOAD", "string":"Reboot to sideload"},
     {"language":"en_us", "key":"WINDOW_TITLE", "string":"ADB GUI"}

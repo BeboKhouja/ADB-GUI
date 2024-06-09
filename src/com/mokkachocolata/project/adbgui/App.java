@@ -1,17 +1,24 @@
-// Copyright (C) 2023 Bebo Khouja
+// Copyright (C) 2024 Bebo Khouja
 
 package com.mokkachocolata.project.adbgui;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 import com.mokkachocolata.exception.JarNotFoundException;
 import com.mokkachocolata.util.*;
 
 
+import de.jcm.discordgamesdk.Core;
+import de.jcm.discordgamesdk.CreateParams;
 import org.apache.log4j.*;
+import org.json.JSONArray;
+
+import de.jcm.discordgamesdk.activity.*;
 
 import javax.swing.*;
 
@@ -23,14 +30,22 @@ import javax.swing.*;
  * @author Bebo Khouja
  */
 public class App {
-    public static final String version = "1.4.1";
+    public static final String version = "1.5.0";
     private static final Logger logger = Logger.getLogger(App.class);
-    private static final Link link = new Link();
     private static final AddonLoader addonLoader = new AddonLoader();
     public static final Event onCommandExecute = new Event();
 
 
     public static void main(String[] args) throws IOException, URISyntaxException, JarNotFoundException, ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, UnsupportedLookAndFeelException, InstantiationException {
+        // I run first!
+        File preferences = new File(new File(new Util().getJarLocation()).getParentFile().getPath() + "\\preferences.json");
+        if (!preferences.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            preferences.createNewFile();
+        }
+        JSONArray preferencesJson = new JSONArray(Files.readAllLines(preferences.toPath()));
+        System.out.println(Files.readAllLines(preferences.toPath()));
+
         ArrayList<LoadedAddon> classes = (ArrayList<LoadedAddon>) addonLoader.LoadAddons().clone();
         ConsoleAppender consoleAppender = new ConsoleAppender();
         consoleAppender.setThreshold(Level.ALL);
@@ -43,36 +58,6 @@ public class App {
         }
         MainFrame myFrame = new MainFrame();
         myFrame.init();
-        if (Terminal.isOpenedInConsole(args)) {
-            try (Scanner scanner = new Scanner(System.in)) {
-                while(true) {
-                    String command = scanner.nextLine();
-                    onCommandExecute.fireEvent();
-                    new Thread(()->{try {
-                        Terminal.GetOutput(Runtime.getRuntime().exec("adb " + command));
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }}).start();
-                    logger.info("Execute command \"adb "+command+"\"");
-                    if (command.equals("version")) {
-                        logger.info("ADB GUI version " + version);
-                    }
-                    if (command.equals("help")) {
-                        logger.info("Commands:\n1. version\n2. jarlocation\n3. discord\n4. github");
-                    }
-                    if (command.equals("github")) {
-                        link.OpenLink("https://github.com/BeboKhouja/ADB-GUI");
-                    }
-                    if (command.equals("discord")) {
-                        link.OpenLink("https://discord.gg/y6AcUNTKxX");
-                    }
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-        }
         
     }
 }

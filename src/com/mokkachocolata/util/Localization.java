@@ -1,26 +1,56 @@
 package com.mokkachocolata.util;
 
 import com.mokkachocolata.enums.Languages;
+import com.mokkachocolata.exception.JarNotFoundException;
 import org.jetbrains.annotations.NotNull;
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Localization {
+    Util util = new Util();
+    /**
+     * Gets the {@code currentLanguage}. <br>
+     * @return The current language
+     */
     public int getCurrentLanguage() {
         return currentLanguage;
     }
 
+    /**
+     * Sets the current language. <br>
+     * <b>Warning: </b> Not recommended to be used.
+     * @param language
+     */
     public void setCurrentLanguage(int language) {
         this.currentLanguage = currentLanguage;
     }
 
-    public int currentLanguage = Languages.EN_US; // this is the default
+    /**
+     * Sets the current language, but this time also saves it to the preferences file.
+     * @param language
+     */
+    public void setCurrentLanguageToPreferences(int language) throws JarNotFoundException, URISyntaxException, IOException {
+        File preferences = new File(new File(util.getJarLocation()).getParentFile().getPath() + "\\preferences.json");
+        if (!preferences.exists()) {
+            preferences.createNewFile();
+        }
+        JSONObject preferencesJson = new JSONObject(Files.readAllLines(preferences.toPath()));
+        preferencesJson.put("language", languageToString(language));
+        FileWriter preferencesWrite = new FileWriter(preferences);
+        preferencesWrite.write(preferencesJson.toString());
+        preferencesWrite.close();
+    }
+
+    private int currentLanguage = Languages.EN_US; // this is the default
     private String getLocalizedJson() throws IOException {
 
         InputStream iStream = getClass().getClassLoader().getResourceAsStream("localizedtexts.json");
@@ -41,16 +71,11 @@ public class Localization {
         return list;
     }
     public String languageToString(int language) {
-        String stringLanguage = null;
-        switch(language){
-            case Languages.EN_US:
-                stringLanguage = "en_us";
-                break;
-            case Languages.ID_ID:
-                stringLanguage = "id_id";
-                break;
-        }
-        return stringLanguage;
+        return switch (language) {
+            case Languages.EN_US -> "en_us";
+            case Languages.ID_ID -> "id_id";
+            default -> null;
+        };
     }
     public String getLocalizedText(String key) throws IOException {
         // First stage: Finding the keys
@@ -64,10 +89,10 @@ public class Localization {
         }
         // Second stage: Filtering by language
         int index = 0;
-        for(int i = 0; i < indexes.size(); i++) {
-            if(localizedTexts.getJSONObject(indexes.get(i)).getString("language").equals(languageToString(currentLanguage))) {
+        for (Integer integer : indexes) {
+            if (localizedTexts.getJSONObject(integer).getString("language").equals(languageToString(currentLanguage))) {
                 // Finally, we got the array we needed!
-                index = indexes.get(i);
+                index = integer;
                 break;
             }
         }
